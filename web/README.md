@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Signal Weekly (MVP)
 
-## Getting Started
+Professional-grade, minimal news outlet for:
 
-First, run the development server:
+- software development
+- computer science
+- AI/ML
+
+The app pulls from evidence-oriented sources, filters alarmist language, generates concise LLM summaries, and sends a weekly Friday digest email.
+
+## Source strategy
+
+The source catalog is seeded from your deep-research PDF recommendations, including:
+
+- GitHub Blog
+- AWS What's New
+- Kubernetes releases/blog
+- ACM Queue
+- Python release notes
+- arXiv (CS)
+- Journal of the ACM
+- Theory of Computing
+- USENIX publications
+- JMLR
+- ACL Anthology
+- MLCommons
+- Stanford HAI AI Index
+- NIST AI RMF
+
+When a feed is unavailable, the app falls back to accredited source links and still keeps that source visible.
+
+## Stack and constraints
+
+- Next.js App Router + TypeScript + Tailwind CSS
+- no extra npm packages added for MVP
+- LLM/API usage done with native `fetch`
+
+## Features
+
+- Home dashboard for quick scanning:
+  - overall weekly summary
+  - per-category summaries
+  - per-article key points and source links
+- Digest API:
+  - `GET /api/digest`
+  - optional `?categories=software-development,computer-science,ai-ml`
+- Weekly email endpoint:
+  - `GET|POST /api/cron/weekly-newsletter`
+  - secret-protected via `CRON_SECRET`
+- Friday automation:
+  - `vercel.json` cron is configured for every Friday at 14:00 UTC.
+
+## Environment setup
+
+Copy `.env.example` values into your `.env.local` and fill them:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4.1-mini
+RESEND_API_KEY=
+NEWSLETTER_FROM_EMAIL=Signal Weekly <newsletter@yourdomain.com>
+NEWSLETTER_TO_EMAIL=you@example.com
+NEWSLETTER_CATEGORIES=software-development,computer-science,ai-ml
+CRON_SECRET=replace-with-a-long-random-secret
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Notes:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- If `OPENAI_API_KEY` is missing, deterministic fallback summarization is used.
+- If Resend env vars are missing, cron execution still builds the digest but skips sending email.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Local development
 
-## Learn More
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open `http://localhost:3000`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Manual weekly run
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Call the cron route manually:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+curl "http://localhost:3000/api/cron/weekly-newsletter?secret=<CRON_SECRET>"
+```
