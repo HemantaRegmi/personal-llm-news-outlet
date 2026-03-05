@@ -93,8 +93,8 @@ export default async function Home() {
 
       <footer className="mt-10 rounded-3xl border border-slate-200 bg-white/90 p-6 text-sm text-slate-600">
         <p>
-          Generated: {new Date(digest.generatedAt).toLocaleString()} · Week
-          ending: {digest.weekEnding}
+          Generated: {new Date(digest.generatedAt).toLocaleString()} · Week ending:{" "}
+          {digest.weekEnding}
         </p>
         <p className="mt-2">
           Selection policy: {digest.sourcePolicy.selectionPrinciples.join(" ")}

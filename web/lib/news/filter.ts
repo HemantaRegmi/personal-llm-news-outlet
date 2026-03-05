@@ -16,8 +16,7 @@ const ALARMIST_TERMS = [
 
 export function isNonAlarmist(title: string, snippet: string): boolean {
   const value = `${title} ${snippet}`.toLowerCase();
-  const punctuationAlarm = /!{2,}/.test(value);
-  if (punctuationAlarm) {
+  if (/!{2,}/.test(value)) {
     return false;
   }
 

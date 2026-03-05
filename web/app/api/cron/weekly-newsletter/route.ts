@@ -50,5 +50,9 @@ function isAuthorized(request: NextRequest): boolean {
     ? bearer.slice("Bearer ".length)
     : null;
 
-  return querySecret === expected || headerSecret === expected || bearerToken === expected;
+  return (
+    querySecret === expected ||
+    headerSecret === expected ||
+    bearerToken === expected
+  );
 }

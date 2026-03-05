@@ -1,6 +1,6 @@
 import type { FeedArticle } from "@/lib/news/types";
 
-const DEFAULT_TIMEOUT_MS = 10_000;
+const DEFAULT_TIMEOUT_MS = 10000;
 
 export async function fetchFeedArticles(
   feedUrl: string,
@@ -11,11 +11,10 @@ export async function fetchFeedArticles(
 
   return items
     .filter((item) => item.url && item.title)
-    .sort((a, b) => {
-      return (
-        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-      );
-    })
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+    )
     .slice(0, limit);
 }
 
@@ -29,7 +28,7 @@ async function fetchText(url: string): Promise<string> {
       headers: {
         "User-Agent": "signal-weekly-newsletter/1.0",
       },
-      next: { revalidate: 60 * 60 },
+      next: { revalidate: 3600 },
     });
 
     if (!response.ok) {
