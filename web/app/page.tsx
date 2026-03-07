@@ -7,19 +7,53 @@ export default async function Home() {
   const digest = await createNewsDigest({
     maxArticlesPerCategory: 4,
   });
+  const forestTrees = [
+    { id: "t1", left: "4%", bottom: "78%", scale: 0.56, tone: "tree-soft" },
+    { id: "t2", left: "12%", bottom: "74%", scale: 0.68, tone: "tree-soft" },
+    { id: "t3", left: "20%", bottom: "76%", scale: 0.62, tone: "tree-mid" },
+    { id: "t4", left: "30%", bottom: "73%", scale: 0.75, tone: "tree-mid" },
+    { id: "t5", left: "40%", bottom: "77%", scale: 0.6, tone: "tree-soft" },
+    { id: "t6", left: "50%", bottom: "72%", scale: 0.78, tone: "tree-mid" },
+    { id: "t7", left: "60%", bottom: "75%", scale: 0.64, tone: "tree-soft" },
+    { id: "t8", left: "69%", bottom: "73%", scale: 0.83, tone: "tree-dark" },
+    { id: "t9", left: "78%", bottom: "76%", scale: 0.66, tone: "tree-mid" },
+    { id: "t10", left: "88%", bottom: "72%", scale: 0.8, tone: "tree-dark" },
+    { id: "t11", left: "8%", bottom: "52%", scale: 0.76, tone: "tree-mid" },
+    { id: "t12", left: "19%", bottom: "49%", scale: 0.94, tone: "tree-dark" },
+    { id: "t13", left: "32%", bottom: "54%", scale: 0.82, tone: "tree-mid" },
+    { id: "t14", left: "46%", bottom: "50%", scale: 1.02, tone: "tree-dark" },
+    { id: "t15", left: "61%", bottom: "53%", scale: 0.86, tone: "tree-mid" },
+    { id: "t16", left: "74%", bottom: "49%", scale: 1.04, tone: "tree-dark" },
+    { id: "t17", left: "86%", bottom: "52%", scale: 0.88, tone: "tree-mid" },
+    { id: "t18", left: "6%", bottom: "24%", scale: 1.04, tone: "tree-dark" },
+    { id: "t19", left: "17%", bottom: "19%", scale: 1.2, tone: "tree-dark" },
+    { id: "t20", left: "29%", bottom: "25%", scale: 1.06, tone: "tree-mid" },
+    { id: "t21", left: "44%", bottom: "20%", scale: 1.25, tone: "tree-dark" },
+    { id: "t22", left: "56%", bottom: "24%", scale: 1.08, tone: "tree-mid" },
+    { id: "t23", left: "68%", bottom: "18%", scale: 1.28, tone: "tree-dark" },
+    { id: "t24", left: "80%", bottom: "23%", scale: 1.1, tone: "tree-mid" },
+    { id: "t25", left: "91%", bottom: "19%", scale: 1.22, tone: "tree-dark" },
+  ] as const;
 
   return (
     <div className="relative overflow-hidden">
-      <div className="landscape-layer" aria-hidden="true">
-        <div className="hill hill-back" />
-        <div className="hill hill-mid" />
-        <div className="hill hill-front" />
-        <div className="hill hill-crest" />
-        <div className="tree tree-1" />
-        <div className="tree tree-2" />
-        <div className="tree tree-3" />
-        <div className="tree tree-4" />
-        <div className="tree tree-5" />
+      <div className="forest-backdrop" aria-hidden="true">
+        <div className="forest-glow" />
+        <div className="forest-ridge ridge-a" />
+        <div className="forest-ridge ridge-b" />
+        <div className="forest-ridge ridge-c" />
+        <div className="forest-ridge ridge-d" />
+        {forestTrees.map((tree) => (
+          <div
+            key={tree.id}
+            className={`forest-tree ${tree.tone}`}
+            style={{
+              left: tree.left,
+              bottom: tree.bottom,
+              transform: `scale(${tree.scale})`,
+            }}
+          />
+        ))}
       </div>
 
       <div className="relative z-10 mx-auto min-h-screen w-full max-w-6xl px-5 py-10 sm:px-8">
